@@ -23,9 +23,13 @@ points = [
 pDistX = s.window_width / 12
 pDistY = s.window_height / 12
 
-a = 1
-
 def updateScreen():
+    for i in 10:
+        for j in 10:
+            if (i = 0):
+                if (j = 0):
+                    points[j][i] = 2
+
     pass
 
 while 1:
