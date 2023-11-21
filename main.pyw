@@ -4,6 +4,7 @@ import numpy
 
 s = turtle.getscreen()
 t = turtle.Turtle(visible=False)
+
 cont = True
 s.delay(None)
 turtle.colormode(255)
