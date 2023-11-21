@@ -10,13 +10,13 @@ s.delay(None)
 turtle.colormode(255)
 turtle.colormode()
 turtle.hideturtle()
-maxHeat = 1000
+maxHeat = 1000000000
 
 points = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,maxHeat,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
@@ -24,38 +24,49 @@ points = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]
 ]
+tempPoints = [range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10),
+              range(10)]
 
 for j in range(10):
     for i in range(10):
-        points[j][i] = maxHeat - 1#numpy.random.randint(0,maxHeat)
+        points[j][i] = numpy.random.randint(0,maxHeat)
 
 pDistX = s.window_width() / 12
 pDistY = s.window_height() / 12
 
 def updateScreen():
+    tempPoints = points
     for j in range(10):
         for i in range(10):
             if (j == 0):
                 if (i == 0):
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j][i + 1]) / 3)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j][i + 1]) / 3)
                 elif (i == 9):
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j][i - 1]) / 3)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j][i - 1]) / 3)
                 else:
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j][i + 1] + points[j][i - 1]) / 4)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j][i + 1] + tempPoints[j][i - 1]) / 4)
             elif (j == 9):
                 if (i == 0):
-                    points[j][i] = round((points[j][i] + points[j - 1][i] + points[j][i + 1]) / 3)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j - 1][i] + tempPoints[j][i + 1]) / 3)
                 elif (i == 9):
-                    points[j][i] = round((points[j][i] + points[j - 1][i] + points[j][i - 1]) / 3)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j - 1][i] + tempPoints[j][i - 1]) / 3)
                 else:
-                    points[j][i] = round((points[j][i] + points[j - 1][i] + points[j][i + 1] + points[j][i - 1]) / 4)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j - 1][i] + tempPoints[j][i + 1] + tempPoints[j][i - 1]) / 4)
             else:
                 if (i == 0):
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j - 1][i] + points[j][i + 1]) / 4)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j - 1][i] + tempPoints[j][i + 1]) / 4)
                 elif (i == 9):
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j - 1][i] + points[j][i - 1]) / 4)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j - 1][i] + tempPoints[j][i - 1]) / 4)
                 else:
-                    points[j][i] = round((points[j][i] + points[j + 1][i] + points[j - 1][i] + points[j][i + 1] + points[j][i - 1]) / 5)
+                    points[j][i] = round((tempPoints[j][i] + tempPoints[j + 1][i] + tempPoints[j - 1][i] + tempPoints[j][i + 1] + tempPoints[j][i - 1]) / 5)
     
     draw()
 
@@ -66,7 +77,8 @@ def draw():
     for j in range(10):
         for i in range(10):
             turtle.colormode(255)
-            turtle.color((points[j][i] / maxHeat * 256).__int__(), (points[j][i] / maxHeat * 256).__int__(), (points[j][i] / maxHeat * 256).__int__())
+            turtle.color((points[j][i] / maxHeat * 255).__int__(), (points[j][i] / maxHeat * 255).__int__(), (points[j][i] / maxHeat * 255).__int__())
+            print(((points[j][i] / maxHeat) * 255).__int__(), (points[j][i] / maxHeat * 255).__int__(), (points[j][i] / maxHeat * 255).__int__())
             turtle.hideturtle()
             turtle.pendown()
             turtle.begin_fill()
@@ -75,13 +87,14 @@ def draw():
             turtle.penup()
             turtle.goto((s.window_width()/2)*-1 + ((i + 1) * pDistX), s.window_height()/2 - ((j + 1) * pDistY))
     turtle.update()
-    time.sleep(1 / 60)
+    time.sleep(1 / 1)
 
 
 def end():
     cont = False
 s.onkeypress(end, "C")
-
+draw()
+updateScreen()
 while cont:
     #s.clear()
     updateScreen()
