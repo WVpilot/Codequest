@@ -1,13 +1,14 @@
 import turtle
-#import time
+import time
 import numpy
 
 s = turtle.getscreen()
-t = turtle.Turtle()
+t = turtle.Turtle(visible=False)
 cont = True
-s.delay(100)
-t.hideturtle()
-
+s.delay(None)
+turtle.colormode(255)
+turtle.colormode()
+turtle.hideturtle()
 maxHeat = 1000
 
 points = [
@@ -25,7 +26,7 @@ points = [
 
 for j in range(10):
     for i in range(10):
-        points[j][i] = numpy.random.randint(0,maxHeat)
+        points[j][i] = maxHeat - 1#numpy.random.randint(0,maxHeat)
 
 pDistX = s.window_width() / 12
 pDistY = s.window_height() / 12
@@ -58,11 +59,22 @@ def updateScreen():
     draw()
 
 def draw():
-    t.penup()
-    t.goto((s.window_width()/2)*-1 + pDistX, s.window_height()/2 - pDistY)
+    turtle.tracer(0, 0)
+    turtle.penup()
+    turtle.goto((s.window_width()/2)*-1 + pDistX, s.window_height()/2 - pDistY)
     for j in range(10):
         for i in range(10):
-            t.color((0, 0, 0), (numpy.floor(max(0, points[j][i] - (maxHeat / 2)) / maxHeat * 256), numpy.floor(min(maxHeat / 2, points[j][i]) / maxHeat * 256), 0))
+            turtle.colormode(255)
+            turtle.color((points[j][i] / maxHeat * 256).__int__(), (points[j][i] / maxHeat * 256).__int__(), (points[j][i] / maxHeat * 256).__int__())
+            turtle.hideturtle()
+            turtle.pendown()
+            turtle.begin_fill()
+            turtle.circle(5)
+            turtle.end_fill()
+            turtle.penup()
+            turtle.goto((s.window_width()/2)*-1 + ((i + 1) * pDistX), s.window_height()/2 - ((j + 1) * pDistY))
+    turtle.update()
+    time.sleep(1 / 60)
 
 
 def end():
@@ -70,6 +82,6 @@ def end():
 s.onkeypress(end, "C")
 
 while cont:
-    s.clearscreen()
+    #s.clear()
     updateScreen()
-    print(points)
+    #print(points)
