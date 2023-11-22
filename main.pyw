@@ -103,5 +103,5 @@ while cont:
     #s.clear()
     updateScreen()
     turtle.update()
-    #print(points)c
+    #print(points)
 turtle.bye()
