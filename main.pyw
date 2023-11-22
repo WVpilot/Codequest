@@ -10,7 +10,7 @@ s.delay(None)
 turtle.colormode(255)
 turtle.colormode()
 turtle.hideturtle()
-maxHeat = 1000000000
+maxHeat = 10000
 
 td = 1/10
 
@@ -18,7 +18,7 @@ points = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,maxHeat,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
@@ -77,24 +77,27 @@ def draw():
     turtle.penup()
     turtle.goto((s.window_width()/2)*-1 + pDistX, s.window_height()/2 - pDistY)
     for j in range(10):
+        turtle.goto((s.window_width()/2)*-1 + pDistX, turtle.ycor() - pDistY)
         for i in range(10):
+            turtle.goto(turtle.xcor() + pDistX, turtle.ycor()) 
             turtle.colormode(255)
-            turtle.color((points[j][i] / maxHeat * 255).__int__(), (points[j][i] / maxHeat * 255).__int__(), (points[j][i] / maxHeat * 255).__int__())
+            turtle.color((points[j][i] / maxHeat * 255).__int__(), (255 - (points[j][i] / maxHeat * 255)).__int__(), 0)
             turtle.hideturtle()
             turtle.pendown()
             turtle.begin_fill()
-            turtle.circle(5)
+            turtle.circle(15)
             turtle.end_fill()
             turtle.penup()
-            turtle.goto((s.window_width()/2)*-1 + ((i + 1) * pDistX), s.window_height()/2 - ((j + 1) * pDistY))
     turtle.update()
     time.sleep(td)
 
 def end():
     cont = False
-s.onkeypress(end, "C")
-draw()
-updateScreen()
+    turtle.Terminator()
+s.onkeypress(end(), "c")
+
+s.listen()
+
 while cont:
     #s.clear()
     updateScreen()
